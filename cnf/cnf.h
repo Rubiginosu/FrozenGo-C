@@ -9,5 +9,5 @@
 typedef struct{
     int port;
 } config;
-int parse(FILE *f,config* attr_src);
+int config_init(config *);
 #endif //FROZENGO_C_CNF_H
