@@ -1,7 +1,15 @@
-#include <stdio.h>
+/**
+ * by Axoford12
+ */
+#include<stdio.h>
+#include "cnf/cnf.h"
+
+void banner(){
+    printf("%s","Frozen Daemon Started");
+}
+
 
 int main() {
-    printf("Hello, World!\n");
+    banner();
     return 0;
-    
 }
