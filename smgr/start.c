@@ -10,26 +10,9 @@
 #include <errno.h>
 #include "start.h"
 #include "../clog/color.h"
+#include "handler.h"
 
 #define MAX_REQUESTS 10
-/**
- * BUF_LENGTH  定义了缓冲区的长度。
- */
-#define BUF_LENGTH 2048
-/**
- *
- * @param fd
- * 创建线程包装的描述符
- * @return
- */
-void handleReq(frozen_go_message_fd fd){
-    char buf[BUF_LENGTH];
-    int n ;
-    n = (int)recv(fd.conn_fd,buf,BUF_LENGTH,0);
-    buf[n] = '\0';
-    printf("%s",buf);
-    close(fd.conn_fd);
-}
 
 /**
  *
@@ -78,7 +61,7 @@ void handle_connection(config c) {
     }
     while(1){
         if((conn_fd = accept(socket_fd,(struct sockaddr*)NULL,NULL)) < 0){
-            color_err_println("connot accept socket_fd..\n");
+            color_err_println("Cannot accept socket_fd..\n");
         }
         pthread_t new_thread;
         frozen_go_message_fd fd;

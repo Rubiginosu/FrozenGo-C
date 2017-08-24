@@ -1,12 +1,13 @@
 /**
  * by Axoford12
  */
-#include<stdio.h>
-#include<unistd.h>
 #include <stdlib.h>
 #include "clog/color.h"
 #include "cnf/cnf.h"
 #include "smgr/start.h"
+#include "utils/md5_sum.h"
+#include <openssl/md5.h>
+#include <memory.h>
 
 void banner(){
     color_special_println("FrozenGo Daemon Started\n");
