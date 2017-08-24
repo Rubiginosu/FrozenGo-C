@@ -12,24 +12,23 @@ enum method_type{
     FR_PURPLE,
     FR_CYAN,
 };
-void color_println(enum method_type type,char* message,char* section){
+void color_print(enum method_type type, char *message, char *section){
     printf("\033[1;%dm[%s]\033[0m",type,section);
-    printf(message);
-    printf("\n");
+    printf("%s",message);
 }
 
 void color_promt_println(char *message) {
-    color_println(FR_GREEN,message,"Prompt");
+    color_print(FR_GREEN, message, "Prompt");
 }
 
 void color_err_println(char *err) {
-    color_println(FR_RED,err,"Error");
+    color_print(FR_RED, err, "Error");
 }
 
 void color_special_println(char *spe) {
-    color_println(FR_CYAN,spe,"FrozenGo");
+    color_print(FR_CYAN, spe, "FrozenGo");
 }
 
-void color_info_printfln(char *info) {
-    color_println(FR_BLUE,info,"Info");
+void color_info_println(char *info) {
+    color_print(FR_BLUE, info, "Info");
 }

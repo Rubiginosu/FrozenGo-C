@@ -4,6 +4,8 @@
 
 #include<stdlib.h>
 #include <memory.h>
+#include <assert.h>
+#include <errno.h>
 #include "cnf.h"
 
 #define LINE_LENGTH 1024
@@ -34,7 +36,8 @@ void filter_char(char *filter_char, char filter) {
 
 void handle(char *attr_name, char *attr_value,config *attr_dst) {
     if(!strcmp(attr_name,"port")){
-        attr_dst->port = (int)strtol(attr_value,NULL,10);
+        attr_dst->port = (unsigned)labs(strtol(attr_value,NULL,10));
+        assert(attr_dst->port > 0);
     }
 }
 
@@ -44,7 +47,7 @@ void handle(char *attr_name, char *attr_value,config *attr_dst) {
  * @param attr_dst
  * @return 错误
  */
-errors parse(FILE *f, config *attr_dst) {
+config_init_error parse(FILE *f, config *attr_dst) {
     char *buf;
     buf = malloc(sizeof(char) * LINE_LENGTH);
     while (fgets(buf, LINE_LENGTH, f)) {
@@ -67,16 +70,19 @@ errors parse(FILE *f, config *attr_dst) {
         attr_value[equal_index + 1] = '\0'; // 显式加上结束符
         handle(attr_name,attr_value,attr_dst);
     }
-    return OK;
+    return PARSE_OK;
 }
 
-errors config_init(config *config) {
+config_init_error config_init(config *config) {
     FILE* config_file = fopen("../fgo.ini","r");
-    if(config_file == NULL){
+    if(errno){
         return ERR_CONFIG_FILE_NOT_FOUND;
     }
+
+
+    config_init_error err = parse(config_file,config);
     fclose(config_file); // 昨天忘关了？
-    return parse(config_file,config);
+    return err;
 
 }
 
