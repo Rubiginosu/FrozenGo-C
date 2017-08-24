@@ -17,6 +17,7 @@ typedef enum{
 
 typedef struct{
     int conn_fd;
+    char* key_sum;
 }frozen_go_message_fd;
 void handle_connection(config c);
 #endif //FROZENGO_C_START_H

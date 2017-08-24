@@ -11,6 +11,7 @@
 #include "start.h"
 #include "../clog/color.h"
 #include "handler.h"
+#include "../cnf/cnf.h"
 
 #define MAX_REQUESTS 10
 
@@ -39,7 +40,8 @@ listen_error __daemon_init(config c,int *socket_fd) {
     if((errcode = bind(*socket_fd,(struct sockaddr*)&sin,sizeof(struct sockaddr))) < 0){
         color_err_println("Bind error,code:");
         printf("%d\n",errcode);
-        printf("%s",strerror(errno));
+        color_err_println("Reason:");
+        printf("%s\n",strerror(errno));
         return ERR_SOCKET_BIND;
     }
     if(listen(*socket_fd,MAX_REQUESTS) < 0){
@@ -57,7 +59,8 @@ void handle_connection(config c) {
     color_info_println("Starting socket...\n");
     if((errcode = __daemon_init(c,&socket_fd)) != INIT_OK){
         color_err_println("Cannot init socket.Errcode:");
-        printf("%d",errcode);
+        printf("%d\n",errcode);
+        return;
     }
     color_info_println("Started\n");
     while(1){
@@ -70,7 +73,8 @@ void handle_connection(config c) {
         pthread_t new_thread;
         frozen_go_message_fd* fd = malloc(sizeof(frozen_go_message_fd));
         fd->conn_fd = conn_fd;
-        if(pthread_create(&new_thread,NULL,(void*)handleReq,fd)){
+        fd->key_sum = c.key;
+        if(pthread_create(&new_thread, NULL, (void *) __process_req, fd)){
             color_err_println("Cannot create thread\n");
             close(socket_fd);
             close(conn_fd);

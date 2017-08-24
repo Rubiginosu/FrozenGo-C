@@ -8,6 +8,7 @@
 #define FROZENGO_C_CNF_H
 typedef struct{
     unsigned long port;
+    char* key;
 } config;
 
 typedef enum{

@@ -7,6 +7,5 @@
 
 bool str_md5_cmp(char *src, char *dst) {
     char *src_sum = md5_sum_get(src);
-    char *dst_sum = md5_sum_get(dst);
-    return strcmp(src_sum,dst_sum) == 0;
+    return strcmp(src_sum,dst) == 0;
 }
