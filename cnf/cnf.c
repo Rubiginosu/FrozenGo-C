@@ -78,6 +78,8 @@ int config_init(config *config) {
     if(config_file == NULL){
         return ERR_CONFIG_FILE_NOT_FOUND;
     }
+    fclose(config_file); // 昨天忘关了？
     return parse(config_file,config);
+
 }
 

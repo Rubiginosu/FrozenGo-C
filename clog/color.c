@@ -18,7 +18,6 @@ void color_println(enum method_type type,char* message,char* section){
     printf("\n");
 }
 
-
 void color_promt_println(char *message) {
     color_println(FR_GREEN,message,"Prompt");
 }
