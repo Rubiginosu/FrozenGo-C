@@ -59,14 +59,18 @@ void handle_connection(config c) {
         color_err_println("Cannot init socket.Errcode:");
         printf("%d",errcode);
     }
+    color_info_println("Started\n");
     while(1){
+
         if((conn_fd = accept(socket_fd,(struct sockaddr*)NULL,NULL)) < 0){
             color_err_println("Cannot accept socket_fd..\n");
+            return;
         }
+        color_info_println("New client connected\n");
         pthread_t new_thread;
-        frozen_go_message_fd fd;
-        fd.conn_fd = conn_fd;
-        if(!pthread_create(&new_thread,NULL,(void*)handleReq,&fd)){
+        frozen_go_message_fd* fd = malloc(sizeof(frozen_go_message_fd));
+        fd->conn_fd = conn_fd;
+        if(pthread_create(&new_thread,NULL,(void*)handleReq,fd)){
             color_err_println("Cannot create thread\n");
             close(socket_fd);
             close(conn_fd);

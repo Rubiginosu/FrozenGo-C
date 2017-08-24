@@ -18,6 +18,6 @@
  * 创建线程包装的描述符
  * @return
  */
-void handleReq(frozen_go_message_fd fd);
+void handleReq(frozen_go_message_fd* fd);
 
 #endif //FROZENGO_C_HANDLER_H
