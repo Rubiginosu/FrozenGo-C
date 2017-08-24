@@ -59,12 +59,12 @@ config_init_error parse(FILE *f, config *attr_dst) {
 
         filter_char(buf, ' ');
         for (equal_index = 0; buf[equal_index] != '='; ++equal_index) {
-            if (equal_index <= ATTR_MAX_LENGTH) ERR_MAX_LENGTH_TOO_SHORT;
+            if (equal_index <= ATTR_MAX_LENGTH)return ERR_MAX_LENGTH_TOO_SHORT;
             attr_name[equal_index] = buf[equal_index];
         }
         attr_name[++equal_index] = '\0';
         for (int counter = equal_index; buf[counter] != '\0'; ++counter) { // Counter的存在是为了修正偏移
-            if (counter <= ATTR_MAX_LENGTH) ERR_MAX_LENGTH_TOO_SHORT;
+            if (counter <= ATTR_MAX_LENGTH)return ERR_MAX_LENGTH_TOO_SHORT;
             attr_value[counter - equal_index] = buf[counter];
         }
         attr_value[equal_index + 1] = '\0'; // 显式加上结束符
