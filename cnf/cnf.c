@@ -8,10 +8,7 @@
 
 #define LINE_LENGTH 1024
 #define ATTR_MAX_LENGTH 20
-enum errors {
-    ERR_MAX_LENGTH_TOO_SHORT = 0,
-    ERR_CONFIG_FILE_NOT_FOUND
-};
+
 
 /**
  * 本函数用于过滤一个字符串中的所有字符
@@ -47,7 +44,7 @@ void handle(char *attr_name, char *attr_value,config *attr_dst) {
  * @param attr_dst
  * @return 错误
  */
-int parse(FILE *f, config *attr_dst) {
+errors parse(FILE *f, config *attr_dst) {
     char *buf;
     buf = malloc(sizeof(char) * LINE_LENGTH);
     while (fgets(buf, LINE_LENGTH, f)) {
@@ -70,10 +67,10 @@ int parse(FILE *f, config *attr_dst) {
         attr_value[equal_index + 1] = '\0'; // 显式加上结束符
         handle(attr_name,attr_value,attr_dst);
     }
-    return 0;
+    return OK;
 }
 
-int config_init(config *config) {
+errors config_init(config *config) {
     FILE* config_file = fopen("../fgo.ini","r");
     if(config_file == NULL){
         return ERR_CONFIG_FILE_NOT_FOUND;

@@ -9,5 +9,16 @@
 typedef struct{
     int port;
 } config;
-int config_init(config *);
+
+typedef enum{
+    OK = 0,
+    ERR_MAX_LENGTH_TOO_SHORT,
+    ERR_CONFIG_FILE_NOT_FOUND
+}errors;
+/**
+ * 初始化conf，从../fg.ini中读取文件。
+ * @return
+ * 错误
+ */
+errors config_init(config *);
 #endif //FROZENGO_C_CNF_H
